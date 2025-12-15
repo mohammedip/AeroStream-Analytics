@@ -1,0 +1,74 @@
+
+services:
+
+  jupyter:
+    build: .
+    container_name: aerostream_jupyter
+    command: >
+      jupyter notebook
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --NotebookApp.token=''
+      --NotebookApp.password='' 
+    volumes:
+      - ./notebooks:/app/notebooks
+      - ./data:/app/data
+      - ./models:/app/models
+    ports:
+      - "8888:8888"
+    depends_on:
+      - chromadb
+      - postgres
+
+  airflow:
+    build: .
+    container_name: aerostream_airflow
+    command: ["airflow", "standalone"]
+    volumes:
+      - ./airflow/dags:/app/airflow/dags
+      - ./airflow/logs:/app/airflow/logs
+      - ./airflow/plugins:/app/airflow/plugins
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW_HOME: /app/airflow
+    depends_on:
+      - postgres
+
+
+  streamlit:
+    build: .
+    container_name: aerostream_streamlit
+    command: streamlit run streamlit/app.py
+    volumes:
+      - ./streamlit:/app/streamlit
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_db:/chromadb
+
+  postgres:
+    image: postgres:15
+    container_name: aerostream_postgres
+    environment:
+      POSTGRES_USER: aerostream
+      POSTGRES_PASSWORD: aerostream
+      POSTGRES_DB: aerostream_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  chroma_db:
+  postgres_data:

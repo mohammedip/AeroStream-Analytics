@@ -1,0 +1,42 @@
+# Data
+pandas
+numpy
+scikit-learn
+
+# NLP
+nltk
+spacy
+regex
+
+# Hugging Face
+datasets
+transformers
+sentence-transformers
+
+# Vector DB
+chromadb
+
+# Visualization
+matplotlib
+seaborn
+plotly
+
+# Dashboard
+streamlit
+jupyter
+
+# Notebooks
+ipykernel
+
+# Database
+psycopg2-binary
+sqlalchemy
+
+# Orchestration
+apache-airflow
+
+# Utils
+tqdm
+python-dotenv
+requests
+nlpaug
