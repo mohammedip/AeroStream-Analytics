@@ -67,6 +67,8 @@ def generate_tweet() -> Tweet:
             f"{handle} Great service today — flight was on time and crew was amazing! ✈️👏",
             f"Shoutout to {handle} for upgrading me last minute. You made my day!",
             f"Smooth flight with {handle} — love the new seats and in-flight snacks. 🍪",
+            f"{handle} Excellent check-in process and friendly staff. Highly recommend!",
+            f"Loved the onboard entertainment on {handle}. Made the flight fly by!"
         ]
     elif sentiment == 'negative':
         texts = [
@@ -74,14 +76,17 @@ def generate_tweet() -> Tweet:
             f"{handle} flight delayed 4 hours with no updates. Terrible communication. #disappointed",
             f"{handle} lost my luggage AGAIN. This is the third time this year. Unacceptable.",
             f"{handle} customer service hung up on me. What kind of support is that?!",
-            f"{handle} 2-hour line at check-in for pre-paid bags. Ridiculous inefficiency.",
+            f"{handle} 2-hour line at check-in for pre-paid bags. Ridiculous inefficiency."
         ]
-    else: 
+    else:  # neutral
         texts = [
-            f"{handle} flight was fine. Boarding took a while, but nothing major.",
-            f"Average experience with {handle}. On time, but seat was a bit tight.",
-            f"Checked in online with {handle}, flight happened. No complaints, no praise.",
+            f"{handle} Flight departed on time and arrived on time.",
+            f"{handle} Checked in successfully. No issues.",
+            f"{handle} Seat and tray table were fine.",
+            f"{handle} Flight proceeded as scheduled.",
+            f"{handle} Standard flight experience. Nothing unusual."
         ]
+
 
     text = random.choice(texts)
     
