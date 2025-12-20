@@ -23,6 +23,7 @@ plotly
 
 # Dashboard
 streamlit
+streamlit_autorefresh
 jupyter
 
 # Notebooks
@@ -34,9 +35,15 @@ sqlalchemy
 
 # Orchestration
 apache-airflow
+asyncpg>=0.29
+psycopg2-binary>=2.9
+
+
 
 # Utils
 tqdm
 python-dotenv
 requests
 nlpaug
+
+faker
