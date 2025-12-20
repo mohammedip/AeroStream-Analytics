@@ -1,0 +1,10 @@
+{"timestamp":"2025-12-22T17:25:01.704876Z","level":"info","event":"DAG bundles loaded: dags-folder, example_dags","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":179}
+{"timestamp":"2025-12-22T17:25:01.707573Z","level":"info","event":"Filling up the DagBag from /app/airflow/dags/aerostream_dag.py","logger":"airflow.models.dagbag.DagBag","filename":"dagbag.py","lineno":593}
+{"timestamp":"2025-12-22T17:25:01.768448Z","level":"info","event":"Task instance is in running state","logger":"task.stdout"}
+{"timestamp":"2025-12-22T17:25:01.770804Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.QUEUED","logger":"task.stdout"}
+{"timestamp":"2025-12-22T17:25:01.771656Z","level":"info","event":"Current task name:fetch_predict_store","logger":"task.stdout"}
+{"timestamp":"2025-12-22T17:25:01.772011Z","level":"info","event":"Dag name:aerostream_streaming_pipeline","logger":"task.stdout"}
+{"timestamp":"2025-12-22T17:25:03.272743Z","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.operators.python.PythonOperator","filename":"python.py","lineno":216}
+{"timestamp":"2025-12-22T17:25:03.298667Z","level":"info","event":"Task instance in success state","logger":"task.stdout"}
+{"timestamp":"2025-12-22T17:25:03.299668Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.RUNNING","logger":"task.stdout"}
+{"timestamp":"2025-12-22T17:25:03.300316Z","level":"info","event":"Task operator:<Task(PythonOperator): fetch_predict_store>","logger":"task.stdout"}

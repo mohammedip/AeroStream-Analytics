@@ -1,0 +1,10 @@
+{"timestamp":"2025-12-22T14:24:00.251642Z","level":"info","event":"DAG bundles loaded: dags-folder, example_dags","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":179}
+{"timestamp":"2025-12-22T14:24:00.253415Z","level":"info","event":"Filling up the DagBag from /app/airflow/dags/aerostream_dag.py","logger":"airflow.models.dagbag.DagBag","filename":"dagbag.py","lineno":593}
+{"timestamp":"2025-12-22T14:24:00.310576Z","level":"info","event":"Task instance is in running state","logger":"task.stdout"}
+{"timestamp":"2025-12-22T14:24:00.311389Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.QUEUED","logger":"task.stdout"}
+{"timestamp":"2025-12-22T14:24:00.312442Z","level":"info","event":"Current task name:init_postgres","logger":"task.stdout"}
+{"timestamp":"2025-12-22T14:24:00.312968Z","level":"info","event":"Dag name:aerostream_streaming_pipeline","logger":"task.stdout"}
+{"timestamp":"2025-12-22T14:24:00.381009Z","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.operators.python.PythonOperator","filename":"python.py","lineno":216}
+{"timestamp":"2025-12-22T14:24:00.407905Z","level":"info","event":"Task instance in success state","logger":"task.stdout"}
+{"timestamp":"2025-12-22T14:24:00.408842Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.RUNNING","logger":"task.stdout"}
+{"timestamp":"2025-12-22T14:24:00.409632Z","level":"info","event":"Task operator:<Task(PythonOperator): init_postgres>","logger":"task.stdout"}

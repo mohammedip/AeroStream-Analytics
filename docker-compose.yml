@@ -1,5 +1,52 @@
+version: '3.9'
 
 services:
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: aerostream
+      POSTGRES_PASSWORD: aerostream
+      POSTGRES_DB: aerostream_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_db:/chromadb
+
+  airflow:
+    build: .
+    container_name: aerostream_airflow
+    command: >
+      bash -c "
+        until pg_isready -h postgres -p 5432 -U aerostream; do sleep 2; done &&
+        airflow db migrate &&
+        airflow standalone
+      "
+    environment:
+      AIRFLOW_HOME: /app/airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /app/airflow/dags
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://aerostream:aerostream@postgres:5432/aerostream_db
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      TRANSFORMERS_OFFLINE: '1'
+      HF_HUB_OFFLINE: '1'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./airflow/dags:/app/airflow/dags
+      - ./airflow/plugins:/app/airflow/plugins
+      - ./airflow/logs:/app/airflow/logs
+      - ./tasks:/app/tasks
+      - C:/Users/reida/.cache/huggingface:/root/.cache/huggingface
+    depends_on:
+      - postgres
 
   jupyter:
     build: .
@@ -11,7 +58,7 @@ services:
       --no-browser
       --allow-root
       --NotebookApp.token=''
-      --NotebookApp.password='' 
+      --NotebookApp.password=''
     volumes:
       - ./notebooks:/app/notebooks
       - ./data:/app/data
@@ -22,52 +69,50 @@ services:
       - chromadb
       - postgres
 
-  airflow:
+  api:
     build: .
-    container_name: aerostream_airflow
-    command: ["airflow", "standalone"]
-    volumes:
-      - ./airflow/dags:/app/airflow/dags
-      - ./airflow/logs:/app/airflow/logs
-      - ./airflow/plugins:/app/airflow/plugins
-    ports:
-      - "8080:8080"
+    container_name: aerostream_api
+    command: uvicorn apis.model_api:app --host 0.0.0.0 --port 8001
     environment:
-      AIRFLOW_HOME: /app/airflow
+      TRANSFORMERS_OFFLINE: "1"
+      HF_HUB_OFFLINE: "1"
+    volumes:
+      - ./apis:/app/apis
+      - ./models:/app/models
+      - C:/Users/reida/.cache/huggingface:/root/.cache/huggingface
+    ports:
+      - "8001:8001"
     depends_on:
       - postgres
 
+  api2:
+    build: .
+    container_name: aerostream_api2
+    command: uvicorn apis.generate_data_api:app --host 0.0.0.0 --port 8002
+    volumes:
+      - ./apis:/app/apis
+      - ./models:/app/models
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres  
 
   streamlit:
     build: .
     container_name: aerostream_streamlit
     command: streamlit run streamlit/app.py
+    environment:
+      TRANSFORMERS_OFFLINE: "1"
+      HF_HUB_OFFLINE: "1"
     volumes:
       - ./streamlit:/app/streamlit
+      - ./models:/app/models 
+      - C:/Users/reida/.cache/huggingface:/root/.cache/huggingface
+      - ./tasks:/app/tasks
     ports:
       - "8501:8501"
     depends_on:
-      - postgres
-
-  chromadb:
-    image: ghcr.io/chroma-core/chroma:latest
-    container_name: chromadb
-    ports:
-      - "8000:8000"
-    volumes:
-      - chroma_db:/chromadb
-
-  postgres:
-    image: postgres:15
-    container_name: aerostream_postgres
-    environment:
-      POSTGRES_USER: aerostream
-      POSTGRES_PASSWORD: aerostream
-      POSTGRES_DB: aerostream_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - api
 
 volumes:
   chroma_db:
